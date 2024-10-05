@@ -1,59 +1,74 @@
 <!DOCTYPE html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TODO list</title>
+    <title>TODO List</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body> 
+<body>
     <div class="container">
-        <h1>TODO List</h1>
-        <div class="container">
+        <h1 class="title has-text-centered">TODO List</h1>
+        <div class="box">
             <form id="newTask">
-            <div>
-                <div>
-                    <label for="title">Task</label>
-                    <input id="title" required />
+                <div class="field">
+                    <label class="label" for="title">Task</label>
+                    <div class="control">
+                        <input class="input" id="title" type="text" required placeholder="Enter task title" />
+                    </div>
                 </div>
 
-                <div>
-                    <label for="assignedTo">Assigned to</label>
-                    <select id="assignedTo"></select>
+                <div class="field">
+                    <label class="label" for="assignedTo">Assigned to</label>
+                    <div class="control">
+                        <div class="select">
+                            <select id="assignedTo"></select>
+                        </div>
+                    </div>
                 </div>
 
-                <div>
-                    <label for="priority">Priority</label>
-                    <select id="priority"></select>
+                <div class="field">
+                    <label class="label" for="priority">Priority</label>
+                    <div class="control">
+                        <div class="select">
+                            <select id="priority"></select>
+                        </div>
+                    </div>
                 </div>
 
-                <div>
-                    <label for="dueDate">Due date</label>
-                    <input id="dueDate" required />
+                <div class="field">
+                    <label class="label" for="dueDate">Due date</label>
+                    <div class="control">
+                        <input class="input" id="dueDate" type="date" required />
+                    </div>
                 </div>
-            </div>
-            <div>
-                <button type="button" id="addTaskBtn" onclick="addTask()">Add task</button>
-            </div>
-            <div id="feedbackMessage" class = "notification is-danger" style=" display:none;"></div>
-        </form>
-    </div>
-    </div>
 
-    <div class="container">
-        <table id="taskList">
-            <thead>
-                <tr>
-                    <th><button type="button" onclick="selectAll()">Select All</button></th>
-                    <th>Task</th>
-                    <th>Assigned to</th>
-                    <th>Priority</th>
-                    <th>Due date</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-primary" type="button" id="addTaskBtn" onclick="addTask()">Add task</button>
+                    </div>
+                </div>
+                <div id="feedbackMessage" class="notification is-danger" style="display:none;"></div>
+            </form>
+        </div>
+
+        <div class="box">
+            <table class="table is-hoverable" id="taskList">
+                <thead>
+                    <tr>
+                        <th><button class="button is-link" type="button" onclick="selectAll()">Select All</button></th>
+                        <th>Task</th>
+                        <th>Assigned to</th>
+                        <th>Priority</th>
+                        <th>Due date</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
 
     <script type="text/javascript" src="js/script.js"></script>

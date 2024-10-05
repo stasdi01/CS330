@@ -38,23 +38,22 @@ function addTask() {
  * @param {Object} parent DOM node to append to
  */
 function addRow(valueList, parent) {
-    // TODO: Implement this function
     let row = document.createElement("tr");
     let td = document.createElement("td");
-    let cd = document.createElement("input");
+    let cb = document.createElement("input");
     
-    cd.type = "checkbox";
-    cd.onclick = removeRow;
-    td.appendChild(cd)
-    row.appendChild(td)
+    cb.type = "checkbox";
+    cb.onclick = removeRow;
+    td.appendChild(cb);
+    row.appendChild(td);
 
-    valueList.forEach(value =>
-    {
+    valueList.forEach(value => {
         let data = document.createElement("td");
         data.textContent = value;
         row.appendChild(data);
-    }
-    );
+    });
+    
+    // Assign the priority class based on the priority value
     row.classList.add(valueList[2].toLowerCase());
 
     parent.appendChild(row);
@@ -76,10 +75,11 @@ function removeRow() {
  * 
  */
 function selectAll() {
-    let checkboxes = document.querySelectorAll("#taskList tbody");
+    let tbody = document.querySelector("#taskList tbody");
 
-    while (checkboxes.firstChild){
-        checkboxes.removeChild(checkboxes.firstChild)
+    // Clear all rows in the tbody
+    while (tbody.firstChild) {
+        tbody.removeChild(tbody.firstChild);
     }
 }
 

@@ -1,15 +1,11 @@
-.critical {
-  background-color: #ffdddd;
-}
-
-.important {
-  background-color: #fff0b3;
+.low {
+  background-color: #cce5ff; 
 }
 
 .normal {
-  background-color: #e7f5fe;
+  background-color: #f7df90; 
 }
 
-.low {
-  background-color: #f0fff4;
+.important {
+  background-color: #ffeeba; 
 }
