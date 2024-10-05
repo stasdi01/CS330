@@ -12,10 +12,23 @@ var priority = ["Low", "Normal", "Important", "Critical"];
  */
 function addTask() {
     // TODO: Implement this function
-    let vals = [];
-    let rowcolids = ["title", "assignedTo", "priority", "dueDate"];
+    let title = document.getElementById("title").value;
+    let dueDate = document.getElementById("dueDate").value;
+    let feebackMessage = document.getElementById("feedbackMessage");
 
-    addRow(vals, document.getElementById("taskList"));
+    if ((!title && !dueDate) || (!dueDate) || (!title)){
+        feebackMessage.textContent = "Fill out title and due date";
+        feebackMessage.style.display = "block";
+        return;
+    }
+    feebackMessage.style.display = "none";
+
+    let assignedTo = document.getElementById("assignedTo").value;
+    let priority = document.getElementById("priority").value;
+
+    let taskList = [title, assignedTo, priority, dueDate];
+    addRow(taskList, document.getElementById("taskList").querySelector("tbody"));
+
 }
 
 /**
@@ -28,7 +41,21 @@ function addRow(valueList, parent) {
     // TODO: Implement this function
     let row = document.createElement("tr");
     let td = document.createElement("td");
-    let cb = document.createElement("input");
+    let cd = document.createElement("input");
+    
+    cd.type = "checkbox";
+    cd.onclick = removeRow;
+    td.appendChild(cd)
+    row.appendChild(td)
+
+    valueList.forEach(value =>
+    {
+        let data = document.createElement("td");
+        data.textContent = value;
+        row.appendChild(data);
+    }
+    );
+    row.classList.add(valueList[2].toLowerCase());
 
     parent.appendChild(row);
 }
@@ -40,6 +67,8 @@ function addRow(valueList, parent) {
  */
 function removeRow() {
     // TODO: Implement this function
+    let row = this.closest("tr");
+    row.parentNode.removeChild(row);
 }
 
 /**
@@ -47,7 +76,11 @@ function removeRow() {
  * 
  */
 function selectAll() {
+    let checkboxes = document.querySelectorAll("#taskList tbody");
 
+    while (checkboxes.firstChild){
+        checkboxes.removeChild(checkboxes.firstChild)
+    }
 }
 
 /**
@@ -59,6 +92,12 @@ function selectAll() {
 function populateSelect(selectId, sList) {
     // TODO: Implement this function
     let sel = document.getElementById(selectId, sList);
+    sList.forEach(function(item) {
+        let option = document.createElement("option");
+        option.textContent = item;
+        option.value = item;
+        sel.appendChild(option);
+    });
 }
 
 window.onload = function () {
