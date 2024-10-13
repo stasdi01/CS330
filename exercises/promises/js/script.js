@@ -1,4 +1,14 @@
 'use strict';
+function displayTrivia(number, trivia, all_numbers) {
+    let div = document.createElement('div');
+    div.classList.add('cell', 'title');
+    div.innerText = number;
+    let triviaDiv = document.createElement('div');
+    triviaDiv.classList.add('cell');
+    triviaDiv.innerText = trivia;
+    all_numbers.appendChild(div);
+    all_numbers.appendChild(triviaDiv);
+}
 
 /**
  * Retrieve trivia about numbers one-by-one
@@ -17,7 +27,6 @@ async function get_individual(num, all_numbers) {
     } catch (error) {
         console.error("Error fetching individual number trivia:", error);
     }
-
 }
 
 /**
@@ -37,7 +46,6 @@ async function get_batch(num, all_numbers) {
     } catch (error) {
         console.error("Error fetching batch number trivia:", error);
     }
-
 }
 
 /**
