@@ -27,6 +27,7 @@ async function get_individual(num, all_numbers) {
     } catch (error) {
         console.error("Error fetching individual number trivia:", error);
     }
+
 }
 
 /**
@@ -46,6 +47,7 @@ async function get_batch(num, all_numbers) {
     } catch (error) {
         console.error("Error fetching batch number trivia:", error);
     }
+
 }
 
 /**
