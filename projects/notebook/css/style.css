@@ -1,0 +1,65 @@
+.is-teal {
+  background-color: #009688 !important;
+  color: #fff !important;
+}
+.is-pink {
+  background-color: #e91e63 !important;
+  color: #fff !important;
+}
+.is-lime {
+  background-color: #cddc39 !important;
+  color: #fff !important;
+}
+.is-orange {
+  background-color: #ff5722 !important;
+  color: #fff !important;
+}
+.is-brown {
+  background-color: #795548 !important;
+  color: #fff !important;
+}
+.is-gray {
+  background-color: #607d8b !important;
+  color: #fff !important;
+}
+.is-orange {
+  background-color: #FFA500 !important;
+  color: #fff !important;
+}
+
+/* Style for notes container */
+#notesContainer {
+  margin-top: 20px;
+}
+
+/* Note card styling for each color grouping */
+.message-header {
+  font-weight: bold;
+  font-size: 1.1em;
+  padding: 8px 12px;
+  text-transform: capitalize;
+}
+.message-body {
+  padding: 10px 12px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+/* Add spacing to form fields */
+.field {
+  margin-bottom: 1rem;
+}
+
+/* Better spacing and size for delete button */
+.deleteNote {
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 1.2em;
+  color: #fff;
+}
+
+/* Message component for title of each color group */
+.message {
+  margin-bottom: 1rem;
+  border-radius: 6px;
+}

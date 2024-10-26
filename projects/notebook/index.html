@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notebook</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css" />
     <script type="text/javascript" defer src=js/model.js></script>
@@ -9,13 +10,45 @@
     <script type="text/javascript" defer src=js/controller.js></script>
     <link rel="stylesheet" href="css/style.css" />
 </head>
-
 <body>
-    <div class="section">
-    </div>
-
-    <div class="section">
-    </div>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Notebook</h1>
+            <div id="noteForm">
+                <div id="fieldTitle" class="field">
+                    <label class="label">Title</label>
+                    <div class="control">
+                        <input type="text" id="title" class="input" required>
+                    </div>
+                    <p class="help is-hidden">Title is required.</p>
+                </div>
+                <div id="fieldColor" class="field">
+                    <label class="label">Color</label>
+                    <div class="control">
+                        <select id="color" class="input" required>
+                            <option value="is-primary">Primary</option>
+                            <option value="is-link">Link</option>
+                            <option value="is-success">Success</option>
+                            <option value="is-warning">Warning</option>
+                            <option value="is-danger">Danger</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="fieldText" class="field">
+                    <label class="label">Text</label>
+                    <div class="control">
+                        <textarea id="text" class="textarea" required></textarea>
+                    </div>
+                    <p class="help is-hidden">Text is required.</p>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <button id="addNote" class="button is-orange">Add Note</button>
+                    </div>
+                </div>
+            </div>
+            <div id="notesContainer"></div>
+        </div>
+    </section>
 </body>
-
 </html>
