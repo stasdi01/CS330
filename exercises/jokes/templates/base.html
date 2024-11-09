@@ -16,7 +16,9 @@
                             <label>Language</label>
                             <div class="control select is-fullwidth">
                                 <select name="language" id="selLang">
-                                    <!-- TODO: Populate language options -->
+                                    {% for code, lang in languages.items() %}
+                                        <option value="{{ code }}">{{ lang }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -24,7 +26,9 @@
                             <label>Category</label>
                             <div class="control select is-fullwidth">
                                 <select name="category" id="selCat">
-                                    <!-- TODO: Populate category options -->
+                                    {% for category in categories %}
+                                        <option value="{{ category }}">{{ category }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -32,7 +36,9 @@
                             <label>Number</label>
                             <div class="control select is-fullwidth">
                                 <select name="number" id="selNum">
-                                    <!-- TODO: Populate number options -->
+                                    {% for i in joke_count %}
+                                        <option value="{{ i }}">{{ i }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -47,7 +53,7 @@
     </div>
     <div class="section">
         <div class="container" id="jokes">
-            <!-- TODO: Populate with jokes or a placeholder -->
+            {% block content %}{% endblock %}
         </div>
     </div>
 </body>

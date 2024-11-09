@@ -2,7 +2,7 @@
 """
 Serving `pyjokes` via templates
 
-@authors:
+@authors: Dimitrije Stasic
 @version: 2024.10
 """
 
@@ -27,21 +27,30 @@ LANGUAGES = {
     "sv": "SWEDISH",
 }
 
-app = Flask(__name__)
+CATEGORIES = ["all", "chuck", "neutral"]
+NUMBERS = range(1,10)
 
+app = Flask(__name__)
 
 @app.get("/")
 def index():
     """Render the template with form"""
-    # TODO: Implement this function
-    ...
-
+    return render_template("base.html", languages=LANGUAGES, categories=CATEGORIES, joke_count=NUMBERS)
 
 @app.post("/")
 def index_jokes():
     """Render the template with jokes"""
-    # TODO: Implement this function
-    ...
+    if not request.form:
+        abort(405)
+
+    language = request.form.get("language", "en")
+    category = request.form.get("category", "all")
+    number = int(request.form.get("number", 1))
+    
+    jokes = get_jokes(language, category, number)
+    
+    return render_template("jokes.html", jokes=jokes, languages=LANGUAGES, categories=CATEGORIES, joke_count=NUMBERS)
+
 
 
 def get_jokes(
@@ -50,5 +59,12 @@ def get_jokes(
     number: int = 1,
 ) -> list[str]:
     """Return a list of jokes"""
-    # TODO: Implement this function
-    ...
+    try:
+        jokes = pyjokes.get_jokes(language=language, category=category)
+        if not jokes:
+            return ["No kidding!"]
+
+        return random.sample(jokes, min(len(jokes),number))
+    except PyjokesError:
+        return ["No kidding!"]
+
