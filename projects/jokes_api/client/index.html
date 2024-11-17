@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jokes API</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma/css/bulma.min.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title has-text-centered">Jokes API</h1>
+            <div class="box">
+                <form id="jokesForm">
+                    <div class="field">
+                        <label class="label">Language</label>
+                        <div class="control">
+                            <div class="select is-fullwidth">
+                                <select id="language">
+                                    <option value="en">English</option>
+                                    <option value="es">Spanish</option>
+                                    <option value="de">German</option>
+                                    <option value="fr">French</option>
+                                    <option value="eu">Basque</option>
+                                    <option value="it">Italian</option>
+                                    <option value="pl">Polish</option>
+                                    <option value="sv">Swedish</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Category</label>
+                        <div class="control">
+                            <div class="select is-fullwidth">
+                                <select id="category">
+                                    <option value="all">All</option>
+                                    <option value="neutral">Neutral</option>
+                                    <option value="chuck">Chuck Norris</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Number of Jokes</label>
+                        <div class="control">
+                            <input type="number" id="number" class="input" placeholder="Enter number or leave empty for all">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Specific Joke ID</label>
+                        <div class="control">
+                            <input type="number" id="jokeId" class="input" placeholder="Enter joke ID (overrides other inputs)">
+                        </div>
+                    </div>
+
+                    <div class="control">
+                        <button type="submit" class="button is-primary is-fullwidth">Get Jokes</button>
+                    </div>
+                </form>
+            </div>
+            <div id="results" class="box">
+                <h2 class="subtitle has-text-centered">Results</h2>
+                <div id="output"></div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
