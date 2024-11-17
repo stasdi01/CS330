@@ -14,11 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
       let url = "";
 
       if (jokeId) {
-          url = `http://localhost:5000/api/v1/jokes/${jokeId}`;
+          url = `https://jokes-api-hq2a.onrender.com/api/v1/jokes/${jokeId}`;
       } else if (number) {
-          url = `http://localhost:5000/api/v1/jokes/${language}/${category}/${number}`;
+          url = `https://jokes-api-hq2a.onrender.com/api/v1/jokes/${language}/${category}/${number}`;
       } else {
-          url = `http://localhost:5000/api/v1/jokes/${language}/${category}`;
+          url = `https://jokes-api-hq2a.onrender.com/api/v1/jokes/${language}/${category}`;
       }
 
       try {
