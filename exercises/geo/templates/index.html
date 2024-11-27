@@ -1,10 +1,50 @@
 {% extends "base.html" %}
+
 {% block content %}
+<h2 class="title">{{ entity }} Information</h2>
+{% if data %}
+<table id="information" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <thead>
+        <tr>
+            <th>Official Name</th>
+            <th>Capital</th>
+            <th>Region</th>
+            <th>Subregion</th>
+            <th>Area</th>
+            <th>Population (2023)</th>
+            <th>Population Density</th>
+            <th>Government</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if data is mapping %}
+            <tr>
+                <td>{{ data.name }}</td>
+                <td>{{ data.capital or ''}}</td>
+                <td>{{ data.continental_region }}</td>
+                <td>{{ data.subregion or 'N/A' }}</td>
+                <td>{{ "{:,.2f}".format(data.area) }}</td>
+                <td>{{ "{:,}".format(data.population) }}</td>
+                <td>{{ "{:,.2f}".format(data.density) }}</td>
+                <td>{{ data.government or 'N/A' }}</td>
+            </tr>
+        {% else %}
+            {% for row in data %}
+                <tr>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.capital or 'N/A' }}</td>
+                    <td>{{ row.continental_region }}</td>
+                    <td>{{ row.subregion or 'N/A' }}</td>
+                    <td>{{ "{:,.2f}".format(row.area) }}</td>
+                    <td>{{ "{:,}".format(row.population) }}</td>
+                    <td>{{ "{:,.2f}".format(row.density) }}</td>
+                    <td>{{ row.government or 'N/A' }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        
+    </tbody>
+</table>
+        {% endif %}
 
-{% block form%}
-{% endblock form %}
-
-{% block data %}
-{% endblock data %}
-
-{% endblock content %}
+{% endblock %}

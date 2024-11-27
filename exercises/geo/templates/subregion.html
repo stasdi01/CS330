@@ -1,4 +1,31 @@
-{% extends "index.html" %}
-{% block form %}
+{% extends "base.html" %}
 
-{% endblock form %}
+{% block content %}
+<h2 class="title">Search for a Subregion</h2>
+<form id="subregionForm" method="get" action="">
+    <div class="field">
+        <label class="label" for="selSubregion">Select Subregion:</label>
+        <div class="control">
+            <div class="select">
+                <select id="selSubregion" name="name" required>
+                    <option value="" disabled selected>Select a subregion</option>
+                    {% for subregion in subregions %}
+                    <option value="{{ subregion.subregion }}">{{ subregion.subregion }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="control">
+        <button id="btnInfo" type="submit" onclick="updateFormAction()" class="button is-primary">Search</button>
+    </div>
+</form>
+<script>
+    function updateFormAction() {
+      const form = document.getElementById("subregionForm");
+      const select = document.getElementById("selSubregion");
+      const selectedSubregion = select.value;
+      form.action = `/subregion/${selectedSubregion}`;
+    }
+  </script>
+{% endblock %}

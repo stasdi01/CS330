@@ -4,26 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>World data</title>
+    <title>World Data</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma/css/bulma.min.css">
 </head>
 
 <body>
-    <navbar>
+    <nav class="navbar is-primary">
         <div class="container">
-            <h1 class="title">Query database on country, region, or subregion level.</h1>
-            <div class="grid">
-                <div class="cell"><a href="/country">Country info</a></div>
-                <div class="cell"><a href="/region">Region info</a></div>
-                <div class="cell"><a href="/subregion">Subregion info</a></div>
-                <div class="cell"><a href="/">Home</a></div>
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">World Data</a>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="/country">Country Info</a>
+                    <a class="navbar-item" href="/region">Region Info</a>
+                    <a class="navbar-item" href="/subregion">Subregion Info</a>
+                </div>
             </div>
         </div>
-    </navbar>
-    <div class="section">
+    </nav>
+    <section class="section">
         <div class="container">
             {% block content %} {% endblock content %}
         </div>
-    </div>
+    </section>
 </body>
 
 </html>

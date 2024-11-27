@@ -1,4 +1,32 @@
-{% extends "index.html" %}
-{% block form %}
+{% extends "base.html" %}
 
-{% endblock form %}
+{% block content %}
+<h2 class="title">Search for a Country</h2>
+<form id="countryForm" method="get" action="">
+    <div class="field">
+        <label class="label" for="selCountry">Select Country:</label>
+        <div class="control">
+            <div class="select">
+                <select id="selCountry" name="name" required>
+                    <option value="" disabled selected>Select a country</option>
+                    {% for country in countries %}
+                    <option value="{{ country.name }}">{{ country.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="control">
+        <button id="btnInfo" type="submit" onclick="updateFormAction()" class="button is-primary">Search</button>
+    </div>
+</form>
+<script>
+    function updateFormAction() {
+      const form = document.getElementById("countryForm");
+      const select = document.getElementById("selCountry");
+      const selectedCountry = select.value;
+      form.action = `/country/${selectedCountry}`;
+    }
+  </script>
+
+{% endblock %}

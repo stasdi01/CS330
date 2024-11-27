@@ -1,4 +1,33 @@
-{% extends "index.html" %}
-{% block form %}
+{% extends "base.html" %}
 
-{% endblock form %}
+{% block content %}
+<h2 class="title">Search for a Region</h2>
+<form id="regionForm" method="get" action="">
+    <div class="field">
+        <label class="label" for="selRegion">Select Region:</label>
+        <div class="control">
+            <div class="select">
+                <select id="selRegion" name="name" required>
+                    <option value="" disabled selected>Select a region</option>
+                    {% for region in regions %}
+                        <option value="{{ region.continental_region }}">{{ region.continental_region }}</option>
+                    {% endfor %}
+
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="control">
+        <button id="btnInfo" type="submit" onclick="updateFormAction()" class="button is-primary">Search</button>
+    </div>
+</form>
+
+<script>
+    function updateFormAction() {
+      const form = document.getElementById("regionForm");
+      const select = document.getElementById("selRegion");
+      const selectedRegion = select.value;
+      form.action = `/region/${selectedRegion}`;
+    }
+  </script>
+{% endblock %}
