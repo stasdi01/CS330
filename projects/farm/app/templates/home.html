@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>Our Products</h1>
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="card product-card h-100 {% if not product.available %}text-muted{% endif %}">
+                    <img src="{{ product.image_url }}" class="card-img-top" alt="{{ product.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text">
+                            <strong>Price:</strong> ${{ "%.2f"|format(product.price) }}
+                            {% if not product.available %}
+                            <span class="badge bg-warning">Sold Out</span>
+                            {% endif %}
+                        </p>
+                        {% if product.available %}
+                        <form action="{{ url_for('main.add_to_cart', product_id=product.id) }}" method="POST">
+                            <button type="submit" class="btn btn-primary">Add to Cart</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h3>Shopping Cart</h3>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for item in cart %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ item.name }}
+                    <span>
+                        ${{ "%.2f"|format(item.price * item.quantity) }}
+                        <small class="text-muted">({{ item.quantity }})</small>
+                    </span>
+                </li>
+                {% else %}
+                <li class="list-group-item">Your cart is empty</li>
+                {% endfor %}
+            </ul>
+            {% if cart %}
+            <div class="card-footer">
+                <strong>Total: ${{ "%.2f"|format(cart_total) }}</strong>
+                <a href="{{ url_for('main.cart') }}" class="btn btn-primary btn-sm float-end">View Cart</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

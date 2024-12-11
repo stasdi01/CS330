@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Your Shopping Cart</h1>
+    {% if cart %}
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart %}
+                    <tr>
+                        <td>
+                            {% set product = products|selectattr('id', 'equalto', item.id)|first %}
+                            {{ product.name }}
+                        </td>
+                        <td>${{ "%.2f"|format(item.price) }}</td>
+                        <td>
+                            <form action="{{ url_for('main.update_cart_quantity', product_id=item.id) }}" method="POST" class="d-inline">
+                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control form-control-sm" style="width: 70px;" onchange="this.form.submit()">
+                            </form>
+                        </td>
+                        <td>${{ "%.2f"|format(item.price * item.quantity) }}</td>
+                        <td>
+                            <form action="{{ url_for('main.remove_from_cart', product_id=item.id) }}" method="POST" class="d-inline">
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    Remove
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Cart Summary</h3>
+                </div>
+                <div class="card-body">
+                    <p>Total Items: {{ cart|sum(attribute='quantity') }}</p>
+                    <h4>Total: ${{ "%.2f"|format(cart_total) }}</h4>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#checkoutModal">
+                        Proceed to Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Checkout Modal -->
+    <div class="modal fade" id="checkoutModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Checkout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Please contact the farm directly to complete your purchase.</p>
+                    <p>Total: ${{ "%.2f"|format(cart_total) }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        Your cart is empty. <a href="{{ url_for('main.home') }}">Continue shopping</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
