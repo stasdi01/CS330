@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fridge</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .transition-box {
+            overflow: hidden;
+            transition: all 1s ease;
+        }
+        .expanded-box {
+            height: auto;
+            opacity: 1;
+            padding: 10px;
+        }
+        .collapsed-box {
+            height: 50px;
+            opacity: 1;
+            padding: 5px;
+        }
+        .search-result {
+            display: none;
+            opacity: 0;
+            transform: translateY(-10px); 
+            animation: fadeInDown 0.8s forwards;
+        }
+        .result-section {
+            margin-top: 30px; 
+        }
+        @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px); 
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Fridge</h1>
+        <div class="fridge-container mb-3 border p-3">
+            {% if fridge_items %}
+            <ul class="list-group">
+                {% for item in fridge_items %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ item[1] }} - Brand: {% if item[4] %} ({{ item[4] }}) {% endif %} - Date: {{ item[2] }} - Quantity: {{ item[3] }}
+                    <div>
+                        <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editModal{{ loop.index }}">Edit</button>
+                        <form action="{{ url_for('delete_item_fridge', item_id=item[0]) }}" method="POST" class="d-inline">
+                            <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                        </form>
+                    </div>
+                </li>
+                
+                <!-- Edit Modal -->
+                <div class="modal fade" id="editModal{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{ loop.index }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form method="POST" action="{{ url_for('edit_item_fridge', item_id=item[0]) }}">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editModalLabel{{ loop.index }}">Edit Item</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="quantity{{ loop.index }}">New Quantity</label>
+                                        <input type="text" id="quantity{{ loop.index }}" name="quantity" class="form-control" value="{{ item[3] }}" required>
+                                    </div>
+                                    
+                                    <p><strong>Date Added:</strong> {{ item[2] }}</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </ul>
+            
+            {% else %}
+                <p class="text-muted">Your fridge is empty! Add items using the "+ Add Item" button.</p>
+            {% endif %}
+        </div>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">+ Add Item</button>
+    </div>
+
+    <!-- Add Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <form id="addItemForm" method="POST" action="{{ url_for('index_fridge') }}">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addModalLabel">Add Item to Fridge</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body transition-box collapsed-box" id="dynamicBox">
+                        <div id="searchBar">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search items..." onkeyup="searchItemsFridge()">
+                        </div>
+                        <div id="searchResults" class="result-section"></div>
+                        <div class="form-group mt-3">
+                            <label for="brand">Brand (Optional)</label>
+                            <input type="text" id="brand" name="brand" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Quantity Type</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="numberCheckbox" name="quantityType" value="number" onchange="toggleNumberInputsFridge()">
+                                <label class="form-check-label" for="numberCheckbox">Number of Items</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="sizeCheckbox" name="quantityType" value="size" onchange="toggleSizeInputsFridge()">
+                                <label class="form-check-label" for="sizeCheckbox">Size</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="weightCheckbox" name="quantityType" value="weight" onchange="toggleWeightInputsFridge()">
+                                <label class="form-check-label" for="weightCheckbox">Weight</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="liquidCheckbox" name="quantityType" value="liquid" onchange="toggleLiquidInputsFridge()">
+                                <label class="form-check-label" for="liquidCheckbox">Liquid</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Size Inputs -->
+                        <div class="dynamic-inputs" id="sizeInputs" style="display: none;">
+                            <label>Size</label>
+                            <div class="form-row">
+                                <div class="col">
+                                    <input type="number" id="sizeInch" name="sizeInch" class="form-control" placeholder="Inches" step="any" oninput="convertSizeFridge()">
+                                    <span id="inchOutput"></span>
+                                </div>
+                                <div class="col">
+                                    <input type="number" id="sizeCm" name="sizeCm" class="form-control" placeholder="Centimeters" step="any" oninput="convertSizeFridge()">
+                                    <span id="cmOutput"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="dynamic-inputs" id="numberInputs" style="display: none;">
+                            <label for="number">Number of Items</label>
+                            <input type="number" id="number" name="number" class="form-control" min="0" step="1">
+                        </div>
+                        
+
+                        <!-- Weight Inputs -->
+                        <div class="dynamic-inputs" id="weightInputs" style="display: none;">
+                            <label>Weight</label>
+                            <div class="form-row">
+                                <div class="col">
+                                    <input type="number" id="weightKg" name="weightKg" class="form-control" placeholder="Kilograms" step="any" oninput="convertWeightFridge()">
+                                    <span id="kgOutput"></span>
+                                </div>
+                                <div class="col">
+                                    <input type="number" id="weightLb" name="weightLb" class="form-control" placeholder="Pounds" step="any" oninput="convertWeightFridge()">
+                                    <span id="lbOutput"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                        <div class="dynamic-inputs" id="liquidInputs" style="display: none;">
+                            <label>Liquid</label>
+                            <div class="form-row">
+                                <div class="col">
+                                    <input type="number" id="liquidGallon" name="liquidGallon" class="form-control" placeholder="Gallons" step="any" oninput="convertLiquidFridge()">
+                                    <span id="gallonOutput"></span>
+                                </div>
+                                <div class="col">
+                                    <input type="number" id="liquidLiter" name="liquidLiter" class="form-control" placeholder="Liters" step="any" oninput="convertLiquidFridge()">
+                                    <span id="literOutput"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add Item</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='fridge.js') }}"></script>
+</body>
+</html>
